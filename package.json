@@ -1,0 +1,36 @@
+{
+  "name": "ts-express",
+  "version": "0.0.1",
+  "description": "typescript version of expressjs",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cybemachine/ts-express.git"
+  },
+  "keywords": [
+    "ts",
+    "express",
+    "@types/express",
+    "expressjs",
+    "server",
+    "js",
+    "nodejs"
+  ],
+  "author": "cybe <https://github.com/cybemachine>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cybemachine/ts-express/issues"
+  },
+  "homepage": "https://github.com/cybemachine/ts-express#readme",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "merge-descriptors": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.2",
+    "@types/merge-descriptors": "^1.0.1"
+  }
+}
