@@ -1,17 +1,14 @@
-import bodyParser from 'body-parser'
 import { EventEmitter } from 'events';
 import mixin from 'merge-descriptors';
-var proto = require('./application');
-var Route = require('./router/route');
-var Router = require('./router');
-var req = require('./request');
-var res = require('./response');
+import * as proto from './application';
+import req from './request';
+import res from './response';
 
 /**
  * Expose `createApplication()`.
  */
 
-exports = module.exports = createApplication;
+export default createApplication;
 
 /**
  * Create an express application.
@@ -20,7 +17,7 @@ exports = module.exports = createApplication;
  * @api public
  */
 
-function createApplication() {
+export function createApplication() {
     var app = Object.assign(function () { }, {
         request: Object.create(req, {
             app: { configurable: true, enumerable: true, writable: true, value: app }
@@ -41,24 +38,20 @@ function createApplication() {
  * Expose the prototypes.
  */
 
-exports.application = proto;
-exports.request = req;
-exports.response = res;
+export const application = proto;
+export const request = req;
+export const response = res;
 
 /**
  * Expose constructors.
  */
-
-exports.Route = Route;
-exports.Router = Router;
+export { Route } from './router/route'
+export { Router } from './router';
 
 /**
  * Expose middleware
  */
 
-exports.json = bodyParser.json
-exports.query = require('./middleware/query');
-exports.raw = bodyParser.raw;
-exports.static = require('serve-static');
-exports.text = bodyParser.text;
-exports.urlencoded = bodyParser.urlencoded;
+export { json, raw, text, urlencoded } from 'body-parser'
+export { query } from './middleware/query';
+export * as stat from 'serve-static';
