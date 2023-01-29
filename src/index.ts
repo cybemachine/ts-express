@@ -1,8 +1,7 @@
-import { EventEmitter } from 'events';
-import mixin from 'merge-descriptors';
-import * as proto from './application';
 import req from './request';
 import res from './response';
+import { EventEmitter } from 'events';
+import * as proto from './application';
 
 /**
  * Expose `createApplication()`.
@@ -24,11 +23,10 @@ export function createApplication() {
         }),
         response: Object.create(res, {
             app: { configurable: true, enumerable: true, writable: true, value: app }
-        })
+        }),
+        EE: EventEmitter.prototype,
+        proto
     });
-
-    mixin(app, EventEmitter.prototype, false);
-    mixin(app, proto, false);
 
     app.init();
     return app;
