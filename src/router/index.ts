@@ -433,7 +433,7 @@ const proto = {
  * @public
  */
 
-export default function (options: Partial<{
+export function Router(options: Partial<{
     caseSensitive: boolean,
     mergeParams: string;
     strict: boolean
@@ -456,6 +456,8 @@ export default function (options: Partial<{
 
     return router;
 };
+
+export default Router
 
 // create Router#VERB functions
 methods.concat('all').forEach(function (method) {
