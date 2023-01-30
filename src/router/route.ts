@@ -1,91 +1,68 @@
+/**
+ * Module dependencies.
+ * @private
+ */
+
 import http from 'http';
 import Debug from 'debug';
 import Layer from './layer';
-
-type PickValue<T> = T extends ReadonlyArray<any> ? { [K in Extract<keyof T, number>]: PickValue<T[K]>; }[number] : T;
-type FlatArray<T extends ArrayLike<any>> = Array<PickValue<T[number]>>;
-function flatten<T extends ArrayLike<any>>(array: T): FlatArray<T> {
-    const result: FlatArray<T> = [];
-    $flatten<T>(array, result);
-    return result;
-}
-function $flatten<T extends ArrayLike<any>>(
-    array: T,
-    result: FlatArray<T>
-): void {
-    for (let i = 0; i < array.length; i++) {
-        const value = array[i];
-
-        if (Array.isArray(value)) $flatten(value as any, result);
-        else result.push(value);
-    }
-}
 
 /**
  * Module variables.
  * @private
  */
+
 const debug = Debug('express:router:route')
-const slice = Array.prototype.slice;
-const toString = Object.prototype.toString;
-const methods = http.METHODS && http.METHODS.map(function lowerCaseMethod(method) {
-    return method.toLowerCase()
-})
+var toString = Object.prototype.toString;
+const methods = http.METHODS && http.METHODS.map((method) => method.toLowerCase());
+
 /**
  * Module exports.
  * @public
  */
 
-/**
- * Initialize `Route` with the given `path`,
- *
- * @param {String} path
- * @public
- */
-export const Route = Object.assign(function Route(path: string) {
-    this.path = path;
-    this.stack = [];
 
-    debug('new %o', path)
-
-    // route handlers for various http methods
-    this.methods = {};
-}, {
+export class Route {
+    path: string;
+    stack: Layer[] = [];
+    methods: {
+        [x: string]: any
+    } = {}
+    constructor(path: string) {
+        this.path = path;
+        debug('new %o', path)
+    }
     /**
- * Determine if the route handles a given method.
- * @private
- */
-    _handle: function _handles_method(method) {
+     * Determine if the route handles a given method.
+     * @private
+     */
+    _handles_method(method) {
         if (this.methods._all) return true;
-
         var name = method.toLowerCase();
-
         if (name === 'head' && !this.methods['head']) name = 'get';
-
         return Boolean(this.methods[name]);
-    },
+    }
     /**
- * @return {Array} supported HTTP methods
- * @private
- */
-    _options: function _options() {
+     * @return {Array} supported HTTP methods
+     * @private
+     */
+    _options() {
         var methods = Object.keys(this.methods);
 
-        // append automatic head
         if (this.methods.get && !this.methods.head) methods.push('head');
-
         for (var i = 0; i < methods.length; i++) methods[i] = methods[i].toUpperCase();
 
         return methods;
-    },
+    }
     /**
      * dispatch req, res into this route
      * @private
      */
-    dispatch: function dispatch(req, res, done) {
+    dispatch(req, res, done) {
         var idx = 0;
         var stack = this.stack;
         if (stack.length === 0) return done();
+
         var method = req.method.toLowerCase();
         if (method === 'head' && !this.methods['head']) method = 'get';
 
@@ -102,13 +79,12 @@ export const Route = Object.assign(function Route(path: string) {
 
             var layer = stack[idx++];
             if (!layer) return done(err);
-
             if (layer.method && layer.method !== method) return next(err);
 
             if (err) layer.handle_error(err, req, res, next);
             else layer.handle_request(req, res, next);
         }
-    },
+    }
     /**
      * Add a handler for all HTTP verbs to this route.
      *
@@ -136,9 +112,7 @@ export const Route = Object.assign(function Route(path: string) {
      * @return {Route} for chaining
      * @api public
      */
-    all: function all() {
-        var handles = flatten(slice.call(arguments));
-
+    all(...handles) {
         for (var i = 0; i < handles.length; i++) {
             var handle = handles[i];
 
@@ -156,13 +130,13 @@ export const Route = Object.assign(function Route(path: string) {
         }
 
         return this;
-    },
-});
+    }
+}
+
+export default Route;
 
 methods.forEach(function (method) {
-    Route.prototype[method] = function () {
-        var handles = flatten(slice.call(arguments));
-
+    Route.prototype[method] = function (...handles: Function[]) {
         for (var i = 0; i < handles.length; i++) {
             var handle = handles[i];
 
