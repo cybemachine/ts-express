@@ -385,13 +385,12 @@ const proto = {
             // add the middleware
             debug('use %o %s', path, fnu.name || '<anonymous>')
 
+            //@ts-ignore
             var layer = new Layer(path, {
                 sensitive: this.caseSensitive,
                 strict: false,
                 end: false
             }, fnu);
-
-            layer.route = undefined;
 
             this.stack.push(layer);
         }

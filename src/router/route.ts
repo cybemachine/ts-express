@@ -122,7 +122,7 @@ export class Route {
                 throw new TypeError(msg);
             }
 
-            var layer = Layer('/', {}, handle);
+            var layer = new Layer('/', {}, handle);
             layer.method = undefined;
 
             this.methods._all = true;
@@ -148,7 +148,7 @@ methods.forEach(function (method) {
 
             debug('%s %o', method, this.path)
 
-            var layer = Layer('/', {}, handle);
+            var layer = new Layer('/', {}, handle);
             layer.method = method;
 
             this.methods[method] = true;

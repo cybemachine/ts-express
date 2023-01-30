@@ -29,7 +29,9 @@ export class Layer {
         fast_star?: boolean;
         fast_slash?: boolean
     };
-    keys: any;
+    keys: any[];
+    method: any;
+    route: any;
     constructor(path: string, options: Partial<{
         sensitive: boolean,
         strict: boolean,
