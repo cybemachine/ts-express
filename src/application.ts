@@ -1,21 +1,34 @@
 import http from 'http';
 import Debug from 'debug';
-import methods from 'methods';
+import View from './view';
+import Router from './router';
 import { resolve } from 'path';
-import merge from 'utils-merge';
-import flatten from 'array-flatten';
+import query from './middleware/query';
 import finalhandler from 'finalhandler';
+import middleware from './middleware/init';
 import setPrototypeOf from 'setprototypeof';
+import { compileETag, compileQueryParser, compileTrust } from './utils';
 
+type PickValue<T> = T extends ReadonlyArray<any> ? { [K in Extract<keyof T, number>]: PickValue<T[K]>; }[number] : T;
+type FlatArray<T extends ArrayLike<any>> = Array<PickValue<T[number]>>;
+function flatten<T extends ArrayLike<any>>(array: T): FlatArray<T> {
+    const result: FlatArray<T> = [];
+    $flatten<T>(array, result);
+    return result;
+}
+function $flatten<T extends ArrayLike<any>>(
+    array: T,
+    result: FlatArray<T>
+): void {
+    for (let i = 0; i < array.length; i++) {
+        const value = array[i];
 
-var View = require('./view');
-var Router = require('./router');
-var middleware = require('./middleware/init');
-var query = require('./middleware/query');
+        if (Array.isArray(value)) $flatten(value as any, result);
+        else result.push(value);
+    }
+}
+const methods = http.METHODS && http.METHODS.map(e => e.toLowerCase())
 var debug = Debug('express:application');
-var compileETag = require('./utils').compileETag;
-var compileQueryParser = require('./utils').compileQueryParser;
-var compileTrust = require('./utils').compileTrust;
 var slice = Array.prototype.slice;
 
 /**
@@ -113,7 +126,7 @@ export var app = {
      */
     lazyrouter: function lazyrouter() {
         if (!this._router) {
-            this._router = new Router({
+            this._router = Router({
                 caseSensitive: this.enabled('case sensitive routing'),
                 strict: this.enabled('strict routing')
             });
@@ -175,11 +188,9 @@ export var app = {
                 path = fn;
             }
         }
-        var fns = flatten.flatten(slice.call(arguments, offset));
+        var fns = flatten(slice.call(arguments, offset));
 
-        if (fns.length === 0) {
-            throw new TypeError('app.use() requires a middleware function')
-        }
+        if (fns.length === 0) throw new TypeError('app.use() requires a middleware function')
 
         // setup router
         this.lazyrouter();
@@ -456,23 +467,19 @@ export var app = {
         }
 
         // merge app.locals
-        merge(renderOptions, this.locals);
+        renderOptions = Object.assign(renderOptions, this.locals);
 
         // merge options._locals
-        if (opts._locals) merge(renderOptions, opts._locals);
+        if (opts._locals) renderOptions = Object.assign(renderOptions, opts._locals);
 
         // merge options
-        merge(renderOptions, opts);
+        renderOptions = Object.assign(renderOptions, opts);
 
         // set .cache unless explicitly provided
-        if (renderOptions.cache == null) {
-            renderOptions.cache = this.enabled('view cache');
-        }
+        if (renderOptions.cache == null) renderOptions.cache = this.enabled('view cache');
 
         // primed cache
-        if (renderOptions.cache) {
-            view = cache[name];
-        }
+        if (renderOptions.cache) view = cache[name];
 
         // view
         if (!view) {
@@ -494,9 +501,7 @@ export var app = {
             }
 
             // prime the cache
-            if (renderOptions.cache) {
-                cache[name] = view;
-            }
+            if (renderOptions.cache) cache[name] = view;
         }
 
         // render
