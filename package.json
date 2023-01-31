@@ -1,8 +1,9 @@
 {
-  "name": "ts-express",
+  "name": "ts-express-cybe",
   "version": "0.0.1",
   "description": "typescript version of expressjs",
   "main": "dist/index.js",
+  "types": "types/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
