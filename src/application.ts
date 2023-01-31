@@ -132,7 +132,7 @@ export var app = {
             });
 
             this._router.use(query(this.get('query parser fn')));
-            this._router.use(middleware.init(this));
+            this._router.use(middleware(this));
         }
     },
     /**
