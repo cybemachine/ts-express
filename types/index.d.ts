@@ -26,4 +26,11 @@ export const raw: typeof bodyParser.raw;
  */
 export const text: typeof bodyParser.text;
 
+/**
+* These are the exposed prototypes.
+*/
+export const application: core.Application;
+export const request: core.Request;
+export const response: core.Response;
+
 export default createApplication;
