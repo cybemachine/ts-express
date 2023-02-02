@@ -25,6 +25,10 @@ export const raw: typeof bodyParser.raw;
  * TEXT handler for express
  */
 export const text: typeof bodyParser.text;
+/**
+ * urlencoded handler for express
+ */
+export const urlencoded: typeof bodyParser.urlencoded
 
 /**
 * These are the exposed prototypes.
