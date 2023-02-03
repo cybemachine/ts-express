@@ -1,6 +1,7 @@
 /// <reference types="node" />
 /// <reference types="./core" />
 
+import qs from 'qs'
 import * as core from './core';
 import * as bodyParser from 'body-parser';
 import * as serverStatic from 'serve-static';
@@ -29,6 +30,10 @@ export const text: typeof bodyParser.text;
  * urlencoded handler for express
  */
 export const urlencoded: typeof bodyParser.urlencoded
+/**
+ * querypareser handler for express
+ */
+export function query(options: qs.IParseOptions | typeof qs.parse): core.Handler
 
 /**
 * These are the exposed prototypes.
