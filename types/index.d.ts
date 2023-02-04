@@ -12,7 +12,7 @@ declare namespace Express {
     interface Response { }
 }
 
-declare function createApplication(): core.Express;
+export function createApplication(): core.Express;
 
 /**
  * JSON handler for express
