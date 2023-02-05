@@ -76,7 +76,7 @@ declare module "ts-express-cybe" {
      */
     export const stat: serverStatic.RequestHandlerConstructor<Response>
 
-    interface Application extends core.Application { }
+    interface Application extends Express.Application, core.Application { }
     interface CookieOptions extends core.CookieOptions { }
     interface Errback extends core.Errback { }
     interface ErrorRequestHandler<
@@ -101,7 +101,7 @@ declare module "ts-express-cybe" {
         ReqBody = any,
         ReqQuery = core.Query,
         Locals extends Record<string, any> = Record<string, any>
-    > extends core.Request<P, ResBody, ReqBody, ReqQuery, Locals> { }
+    > extends Express.Request, core.Request<P, ResBody, ReqBody, ReqQuery, Locals> { }
     interface RequestHandler<
         P = core.ParamsDictionary,
         ResBody = any,
@@ -113,9 +113,7 @@ declare module "ts-express-cybe" {
     interface Response<
         ResBody = any,
         Locals extends Record<string, any> = Record<string, any>
-    > extends core.Response<ResBody, Locals> { }
+    > extends Express.Response, core.Response<ResBody, Locals> { }
     interface Router extends core.Router { }
     interface Send extends core.Send { }
-
-    export default createApplication;
 }
