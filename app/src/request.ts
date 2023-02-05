@@ -247,7 +247,10 @@ export const req = Object.assign(http.IncomingMessage.prototype, {
      * @public
      */
     get protocol(): string {
-        var proto = this.connection.encrypted ? 'https' : 'http';
+        let proto = 'http';
+        if (this.connection) if (Reflect.has(this.connection, 'encrypted')) {
+            proto = 'https'
+        }
         var trust = this.app.get('trust proxy fn');
 
         if (!trust(this.connection.remoteAddress, 0)) return proto;

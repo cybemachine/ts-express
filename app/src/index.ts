@@ -2,6 +2,7 @@ import req from './request';
 import res from './response';
 import { EventEmitter } from 'events';
 import * as proto from './application';
+import { Express } from '../types/index';
 
 /**
  * Expose `createApplication()`.
@@ -16,17 +17,17 @@ export default createApplication;
  * @api public
  */
 
-export function createApplication() {
-    var app = Object.assign(function () { }, {
-        request: Object.create(req, {
+export function createApplication(): Express.Application {
+    var app = Object.assign(function () { },
+        proto,
+        Object.create(req, {
             app: { configurable: true, enumerable: true, writable: true, value: app }
         }),
-        response: Object.create(res, {
+        Object.create(res, {
             app: { configurable: true, enumerable: true, writable: true, value: app }
         }),
-        EE: EventEmitter.prototype,
-        proto
-    });
+        EventEmitter.prototype
+    );
 
     app.init();
     return app;
@@ -36,9 +37,9 @@ export function createApplication() {
  * Expose the prototypes.
  */
 
-export const application = proto;
-export const request = req;
-export const response = res;
+export const application: Express.Application = proto;
+export const request: Express.Request = req;
+export const response: Express.Response = res;
 
 /**
  * Expose constructors.

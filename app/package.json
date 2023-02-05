@@ -1,6 +1,6 @@
 {
   "name": "ts-express-cybe",
-  "version": "0.0.3-beta",
+  "version": "0.0.4-alpha",
   "description": "typescript version of expressjs",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
