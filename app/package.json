@@ -1,9 +1,9 @@
 {
   "name": "ts-express-cybe",
-  "version": "0.0.4-alpha",
-  "description": "typescript version of expressjs",
-  "main": "dist/index.js",
-  "types": "types/index.d.ts",
+  "version": "0.0.5",
+  "description": "typescript added version for express.js",
+  "main": "./src/express.js",
+  "types": "./types/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,13 +12,12 @@
     "url": "git+https://github.com/cybemachine/ts-express.git"
   },
   "keywords": [
-    "ts",
     "express",
-    "@types/express",
-    "expressjs",
-    "server",
-    "js",
-    "nodejs"
+    "ts",
+    "tsc",
+    "typescript",
+    "expressts",
+    "ts-express"
   ],
   "author": "cybe <https://github.com/cybemachine>",
   "license": "MIT",
@@ -29,52 +28,13 @@
   "dependencies": {
     "accepts": "^1.3.8",
     "body-parser": "^1.20.1",
-    "content-disposition": "^0.5.4",
-    "content-type": "^1.0.5",
-    "cookie": "^0.5.0",
-    "cookie-signature": "^1.2.0",
-    "debug": "^4.3.4",
     "depd": "^2.0.0",
-    "encodeurl": "^1.0.2",
-    "escape-html": "^1.0.3",
-    "etag": "^1.8.1",
-    "finalhandler": "^1.2.0",
     "fresh": "^0.5.2",
-    "on-finished": "^2.4.1",
     "parseurl": "^1.3.3",
-    "path-to-regexp": "^6.2.1",
     "proxy-addr": "^2.0.7",
-    "qs": "^6.11.0",
     "range-parser": "^1.2.1",
-    "send": "^0.18.0",
-    "setprototypeof": "^1.2.0",
-    "statuses": "^2.0.1",
-    "type-is": "^1.6.18",
-    "vary": "^1.1.2"
-  },
-  "devDependencies": {
-    "@types/accepts": "^1.3.5",
-    "@types/body-parser": "^1.19.2",
-    "@types/content-disposition": "^0.5.5",
-    "@types/content-type": "^1.1.5",
-    "@types/cookie": "^0.5.1",
-    "@types/cookie-signature": "^1.1.0",
-    "@types/debug": "^4.1.7",
-    "@types/depd": "^1.1.32",
-    "@types/encodeurl": "^1.0.0",
-    "@types/escape-html": "^1.0.2",
-    "@types/etag": "^1.8.1",
-    "@types/finalhandler": "^1.2.0",
-    "@types/fresh": "^0.5.0",
-    "@types/merge-descriptors": "^1.0.1",
-    "@types/on-finished": "^2.3.1",
-    "@types/parseurl": "^1.3.1",
-    "@types/proxy-addr": "^2.0.0",
-    "@types/qs": "^6.9.7",
-    "@types/range-parser": "^1.2.4",
-    "@types/send": "^0.17.1",
-    "@types/statuses": "^2.0.1",
-    "@types/type-is": "^1.6.3",
-    "@types/vary": "^1.1.0"
+    "serve-static": "^1.15.0",
+    "ts-express": "^1.0.3",
+    "type-is": "^1.6.18"
   }
 }

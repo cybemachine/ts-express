@@ -1,5 +1,5 @@
 var assert = require('assert')
-var express = require('../app')
+var express = require('..')
 var request = require('supertest')
 
 describe('app', function () {
