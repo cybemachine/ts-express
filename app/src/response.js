@@ -1,18 +1,4 @@
-/*!
- * express
- * Copyright(c) 2009-2013 TJ Holowaychuk
- * Copyright(c) 2014-2015 Douglas Christopher Wilson
- * MIT Licensed
- */
-
-'use strict';
-
-/**
- * Module dependencies.
- * @private
- */
-
-var Buffer = require('safe-buffer').Buffer
+var { Buffer } = require('safe-buffer')
 var contentDisposition = require('content-disposition');
 var createError = require('http-errors')
 var deprecate = require('depd')('express');
