@@ -1,4 +1,4 @@
-var { Buffer } = require('safe-buffer')
+const { Buffer } = require('safe-buffer')
 var contentDisposition = require('content-disposition');
 var createError = require('http-errors')
 var deprecate = require('depd')('express');
