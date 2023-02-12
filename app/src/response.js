@@ -1,32 +1,26 @@
-const { Buffer } = require('safe-buffer')
-var contentDisposition = require('content-disposition');
-var createError = require('http-errors')
-var deprecate = require('depd')('express');
-var encodeUrl = require('encodeurl');
-var escapeHtml = require('escape-html');
-var http = require('http');
-var isAbsolute = require('./utils').isAbsolute;
-var onFinished = require('on-finished');
-var path = require('path');
-var statuses = require('statuses')
-var merge = require('utils-merge');
-var sign = require('cookie-signature').sign;
-var normalizeType = require('./utils').normalizeType;
-var normalizeTypes = require('./utils').normalizeTypes;
-var setCharset = require('./utils').setCharset;
-var cookie = require('cookie');
-var send = require('send');
-var extname = path.extname;
-var mime = send.mime;
-var resolve = path.resolve;
-var vary = require('vary');
+const http = require('http');
+const mime = require('mime');
+const vary = require('vary');
+const cookie = require('cookie');
+const merge = require('utils-merge');
+const statuses = require('statuses');
+const encodeUrl = require('encodeurl');
+const { Buffer } = require('safe-buffer');
+const escapeHtml = require('escape-html');
+const onFinished = require('on-finished');
+const createError = require('http-errors');
+const { sign } = require('cookie-signature');
+const deprecate = require('depd')('express');
+const { extname, resolve } = require('path');
+const contentDisposition = require('content-disposition');
+const { isAbsolute, normalizeType, normalizeTypes, setCharset } = require('./utils');
 
 /**
  * Response prototype.
  * @public
  */
 
-var res = Object.create(http.ServerResponse.prototype)
+const res = Object.create(http.ServerResponse.prototype)
 
 /**
  * Module exports.
@@ -40,7 +34,7 @@ module.exports = res
  * @private
  */
 
-var charsetRegExp = /;\s*charset\s*=/;
+const charsetRegExp = /;\s*charset\s*=/;
 
 /**
  * Set status `code`.
@@ -74,7 +68,7 @@ res.status = function status(code) {
  */
 
 res.links = function (links) {
-    var link = this.get('Link') || '';
+    let link = this.get('Link') || '';
     if (link) link += ', ';
     return this.set('Link', link + Object.keys(links).map(function (rel) {
         return '<' + links[rel] + '>; rel="' + rel + '"';
@@ -95,13 +89,13 @@ res.links = function (links) {
  */
 
 res.send = function send(body) {
-    var chunk = body;
-    var encoding;
-    var req = this.req;
-    var type;
+    let type;
+    let encoding;
+    let chunk = body;
+    const req = this.req;
 
     // settings
-    var app = this.app;
+    const app = this.app;
 
     // allow status / body
     if (arguments.length === 2) {
@@ -162,11 +156,11 @@ res.send = function send(body) {
     }
 
     // determine if ETag should be generated
-    var etagFn = app.get('etag fn')
-    var generateETag = !this.get('ETag') && typeof etagFn === 'function'
+    const etagFn = app.get('etag fn')
+    const generateETag = !this.get('ETag') && typeof etagFn === 'function'
 
     // populate Content-Length
-    var len
+    let len
     if (chunk !== undefined) {
         if (Buffer.isBuffer(chunk)) {
             // get length of Buffer
@@ -185,7 +179,7 @@ res.send = function send(body) {
     }
 
     // populate ETag
-    var etag;
+    let etag;
     if (generateETag && len !== undefined) {
         if ((etag = etagFn(chunk, encoding))) {
             this.set('ETag', etag);
@@ -234,7 +228,7 @@ res.send = function send(body) {
  */
 
 res.json = function json(obj) {
-    var val = obj;
+    let val = obj;
 
     // allow status / body
     if (arguments.length === 2) {
@@ -250,11 +244,11 @@ res.json = function json(obj) {
     }
 
     // settings
-    var app = this.app;
-    var escape = app.get('json escape')
-    var replacer = app.get('json replacer');
-    var spaces = app.get('json spaces');
-    var body = stringify(val, replacer, spaces, escape)
+    const app = this.app;
+    const escape = app.get('json escape')
+    const replacer = app.get('json replacer');
+    const spaces = app.get('json spaces');
+    const body = stringify(val, replacer, spaces, escape)
 
     // content-type
     if (!this.get('Content-Type')) {
@@ -277,7 +271,7 @@ res.json = function json(obj) {
  */
 
 res.jsonp = function jsonp(obj) {
-    var val = obj;
+    let val = obj;
 
     // allow status / body
     if (arguments.length === 2) {
@@ -293,12 +287,12 @@ res.jsonp = function jsonp(obj) {
     }
 
     // settings
-    var app = this.app;
-    var escape = app.get('json escape')
-    var replacer = app.get('json replacer');
-    var spaces = app.get('json spaces');
-    var body = stringify(val, replacer, spaces, escape)
-    var callback = this.req.query[app.get('jsonp callback name')];
+    const app = this.app;
+    const escape = app.get('json escape')
+    const replacer = app.get('json replacer');
+    const spaces = app.get('json spaces');
+    const body = stringify(val, replacer, spaces, escape)
+    let callback = this.req.query[app.get('jsonp callback name')];
 
     // content-type
     if (!this.get('Content-Type')) {
@@ -353,7 +347,7 @@ res.jsonp = function jsonp(obj) {
  */
 
 res.sendStatus = function sendStatus(statusCode) {
-    var body = statuses.message[statusCode] || String(statusCode)
+    const body = statuses.message[statusCode] || String(statusCode)
 
     this.statusCode = statusCode;
     this.type('txt');
@@ -387,7 +381,7 @@ res.sendStatus = function sendStatus(statusCode) {
  *  the same code, so HTTP cache support etc is identical.
  *
  *     app.get('/user/:uid/photos/:file', function(req, res){
- *       var uid = req.params.uid
+ *       const uid = req.params.uid
  *         , file = req.params.file;
  *
  *       req.user.mayViewFilesFrom(uid, function(yes){
@@ -403,11 +397,11 @@ res.sendStatus = function sendStatus(statusCode) {
  */
 
 res.sendFile = function sendFile(path, options, callback) {
-    var done = callback;
-    var req = this.req;
-    var res = this;
-    var next = req.next;
-    var opts = options || {};
+    let done = callback;
+    const req = this.req;
+    const res = this;
+    const next = req.next;
+    let opts = options || {};
 
     if (!path) {
         throw new TypeError('path argument is required to res.sendFile');
@@ -428,8 +422,8 @@ res.sendFile = function sendFile(path, options, callback) {
     }
 
     // create file stream
-    var pathname = encodeURI(path);
-    var file = send(req, pathname, opts);
+    const pathname = encodeURI(path);
+    const file = send(req, pathname, opts);
 
     // transfer
     sendfile(res, file, opts, function (err) {
@@ -469,7 +463,7 @@ res.sendFile = function sendFile(path, options, callback) {
  *  the same code, so HTTP cache support etc is identical.
  *
  *     app.get('/user/:uid/photos/:file', function(req, res){
- *       var uid = req.params.uid
+ *       const uid = req.params.uid
  *         , file = req.params.file;
  *
  *       req.user.mayViewFilesFrom(uid, function(yes){
