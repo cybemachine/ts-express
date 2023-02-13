@@ -479,11 +479,11 @@ res.sendFile = function sendFile(path, options, callback) {
  */
 
 res.sendfile = function (path, options, callback) {
-    var done = callback;
-    var req = this.req;
-    var res = this;
-    var next = req.next;
-    var opts = options || {};
+    let done = callback;
+    const req = this.req;
+    const res = this;
+    const next = req.next;
+    let opts = options || {};
 
     // support function as second arg
     if (typeof options === 'function') {
@@ -492,7 +492,7 @@ res.sendfile = function (path, options, callback) {
     }
 
     // create file stream
-    var file = send(req, path, opts);
+    const file = send(req, path, opts);
 
     // transfer
     sendfile(res, file, opts, function (err) {
@@ -528,9 +528,9 @@ res.sendfile = deprecate.function(res.sendfile,
  */
 
 res.download = function download(path, filename, options, callback) {
-    var done = callback;
-    var name = filename;
-    var opts = options || null
+    let done = callback;
+    let name = filename;
+    let opts = options || null
 
     // support function as second or third arg
     if (typeof filename === 'function') {
@@ -550,15 +550,15 @@ res.download = function download(path, filename, options, callback) {
     }
 
     // set Content-Disposition when file is sent
-    var headers = {
+    const headers = {
         'Content-Disposition': contentDisposition(name || path)
     };
 
     // merge user-provided headers
     if (opts && opts.headers) {
-        var keys = Object.keys(opts.headers)
-        for (var i = 0; i < keys.length; i++) {
-            var key = keys[i]
+        const keys = Object.keys(opts.headers)
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i]
             if (key.toLowerCase() !== 'content-disposition') {
                 headers[key] = opts.headers[key]
             }
@@ -570,7 +570,7 @@ res.download = function download(path, filename, options, callback) {
     opts.headers = headers
 
     // Resolve the full path for sendFile
-    var fullPath = !opts.root
+    const fullPath = !opts.root
         ? resolve(path)
         : path
 
@@ -597,7 +597,7 @@ res.download = function download(path, filename, options, callback) {
 
 res.contentType =
     res.type = function contentType(type) {
-        var ct = type.indexOf('/') === -1
+        const ct = type.indexOf('/') === -1
             ? mime.lookup(type)
             : type;
 
@@ -662,13 +662,13 @@ res.contentType =
  */
 
 res.format = function (obj) {
-    var req = this.req;
-    var next = req.next;
+    const req = this.req;
+    const next = req.next;
 
-    var keys = Object.keys(obj)
+    const keys = Object.keys(obj)
         .filter(function (v) { return v !== 'default' })
 
-    var key = keys.length > 0
+    const key = keys.length > 0
         ? req.accepts(keys)
         : false;
 
@@ -722,8 +722,8 @@ res.attachment = function attachment(filename) {
  */
 
 res.append = function append(field, val) {
-    var prev = this.get(field);
-    var value = val;
+    const prev = this.get(field);
+    let value = val;
 
     if (prev) {
         // concat the new and prev vals
@@ -756,7 +756,7 @@ res.append = function append(field, val) {
 res.set =
     res.header = function header(field, val) {
         if (arguments.length === 2) {
-            var value = Array.isArray(val)
+            let value = Array.isArray(val)
                 ? val.map(String)
                 : String(val);
 
@@ -766,14 +766,14 @@ res.set =
                     throw new TypeError('Content-Type cannot be set to an Array');
                 }
                 if (!charsetRegExp.test(value)) {
-                    var charset = mime.charsets.lookup(value.split(';')[0]);
+                    const charset = mime.charsets.lookup(value.split(';')[0]);
                     if (charset) value += '; charset=' + charset.toLowerCase();
                 }
             }
 
             this.setHeader(field, value);
         } else {
-            for (var key in field) {
+            for (const key in field) {
                 this.set(key, field[key]);
             }
         }
@@ -802,7 +802,7 @@ res.get = function (field) {
  */
 
 res.clearCookie = function clearCookie(name, options) {
-    var opts = merge({ expires: new Date(1), path: '/' }, options);
+    const opts = merge({ expires: new Date(1), path: '/' }, options);
 
     return this.cookie(name, '', opts);
 };
