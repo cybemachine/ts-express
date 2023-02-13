@@ -832,9 +832,9 @@ res.clearCookie = function clearCookie(name, options) {
  */
 
 res.cookie = function (name, value, options) {
-    var opts = merge({}, options);
-    var secret = this.req.secret;
-    var signed = opts.signed;
+    const opts = merge({}, options);
+    const secret = this.req.secret;
+    const signed = opts.signed;
 
     if (signed && !secret) {
         throw new Error('cookieParser("secret") required for signed cookies');
@@ -884,7 +884,7 @@ res.cookie = function (name, value, options) {
  */
 
 res.location = function location(url) {
-    var loc = url;
+    let loc = url;
 
     // "back" is an alias for the referrer
     if (url === 'back') {
@@ -914,9 +914,9 @@ res.location = function location(url) {
  */
 
 res.redirect = function redirect(url) {
-    var address = url;
-    var body;
-    var status = 302;
+    let body;
+    let status = 302;
+    let address = url;
 
     // allow status / url
     if (arguments.length === 2) {
@@ -994,11 +994,11 @@ res.vary = function (field) {
  */
 
 res.render = function render(view, options, callback) {
-    var app = this.req.app;
-    var done = callback;
-    var opts = options || {};
-    var req = this.req;
-    var self = this;
+    const self = this;
+    let done = callback;
+    const req = this.req;
+    let app = this.req.app;
+    let opts = options || {};
 
     // support callback function as second arg
     if (typeof options === 'function') {
@@ -1021,8 +1021,8 @@ res.render = function render(view, options, callback) {
 
 // pipe the send file stream
 function sendfile(res, file, options, callback) {
-    var done = false;
-    var streaming;
+    let streaming;
+    let done = false;
 
     // request aborted
     function onaborted() {
@@ -1125,7 +1125,7 @@ function sendfile(res, file, options, callback) {
 function stringify(value, replacer, spaces, escape) {
     // v8 checks arguments.length for optimizing simple call
     // https://bugs.chromium.org/p/v8/issues/detail?id=4730
-    var json = replacer || spaces
+    let json = replacer || spaces
         ? JSON.stringify(value, replacer, spaces)
         : JSON.stringify(value);
 
