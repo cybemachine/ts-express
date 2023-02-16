@@ -19,14 +19,14 @@ const slice = Array.prototype.slice;
  * Application prototype.
  */
 
-var app = exports = module.exports = {};
+const app = exports = module.exports = {};
 
 /**
  * Variable for trust proxy inheritance back-compat
  * @private
  */
 
-var trustProxyDefaultSymbol = '@@symbol:trust_proxy_default';
+const trustProxyDefaultSymbol = '@@symbol:trust_proxy_default';
 
 /**
  * Initialize the server.
