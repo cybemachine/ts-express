@@ -52,7 +52,7 @@ app.init = function init() {
  */
 
 app.defaultConfiguration = function defaultConfiguration() {
-    var env = process.env.NODE_ENV || 'development';
+    const env = process.env.NODE_ENV || 'development';
 
     // default settings
     this.enable('x-powered-by');
