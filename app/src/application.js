@@ -140,10 +140,10 @@ app.lazyrouter = function lazyrouter() {
  */
 
 app.handle = function handle(req, res, callback) {
-    var router = this._router;
+    const router = this._router;
 
     // final handler
-    var done = callback || finalhandler(req, res, {
+    const done = callback || finalhandler(req, res, {
         env: this.get('env'),
         onerror: logerror.bind(this)
     });
@@ -169,13 +169,13 @@ app.handle = function handle(req, res, callback) {
  */
 
 app.use = function use(fn) {
-    var offset = 0;
-    var path = '/';
+    let path = '/';
+    let offset = 0;
 
     // default path to '/'
     // disambiguate app.use([fn])
     if (typeof fn !== 'function') {
-        var arg = fn;
+        let arg = fn;
 
         while (Array.isArray(arg) && arg.length !== 0) {
             arg = arg[0];
@@ -188,7 +188,7 @@ app.use = function use(fn) {
         }
     }
 
-    var fns = flatten(slice.call(arguments, offset));
+    const fns = flatten(slice.call(arguments, offset));
 
     if (fns.length === 0) {
         throw new TypeError('app.use() requires a middleware function')
@@ -196,7 +196,7 @@ app.use = function use(fn) {
 
     // setup router
     this.lazyrouter();
-    var router = this._router;
+    const router = this._router;
 
     fns.forEach(function (fn) {
         // non-express app
@@ -306,7 +306,7 @@ app.param = function param(name, fn) {
     this.lazyrouter();
 
     if (Array.isArray(name)) {
-        for (var i = 0; i < name.length; i++) {
+        for (let i = 0; i < name.length; i++) {
             this.param(name[i], fn);
         }
 
@@ -462,7 +462,7 @@ methods.forEach(function (method) {
 
         this.lazyrouter();
 
-        var route = this._router.route(path);
+        const route = this._router.route(path);
         route[method].apply(route, slice.call(arguments, 1));
         return this;
     };
@@ -481,8 +481,8 @@ methods.forEach(function (method) {
 app.all = function all(path) {
     this.lazyrouter();
 
-    var route = this._router.route(path);
-    var args = slice.call(arguments, 1);
+    const route = this._router.route(path);
+    const args = slice.call(arguments, 1);
 
     for (var i = 0; i < methods.length; i++) {
         route[methods[i]].apply(route, args);
@@ -513,12 +513,12 @@ app.del = deprecate.function(app.delete, 'app.del: Use app.delete instead');
  */
 
 app.render = function render(name, options, callback) {
-    var cache = this.cache;
-    var done = callback;
-    var engines = this.engines;
-    var opts = options;
-    var renderOptions = {};
-    var view;
+    let view;
+    let opts = options;
+    let done = callback;
+    const cache = this.cache;
+    const renderOptions = {};
+    const engines = this.engines;
 
     // support callback function as second arg
     if (typeof options === 'function') {
@@ -598,7 +598,7 @@ app.render = function render(name, options, callback) {
  */
 
 app.listen = function listen() {
-    var server = http.createServer(this);
+    const server = http.createServer(this);
     return server.listen.apply(server, arguments);
 };
 
