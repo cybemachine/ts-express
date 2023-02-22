@@ -1,5 +1,5 @@
-var pathRegexp = require('path-to-regexp');
-var debug = require('debug')('express:router:layer');
+const pathRegexp = require('path-to-regexp');
+const debug = require('debug')('express:router:layer');
 
 /**
  * Module variables.
