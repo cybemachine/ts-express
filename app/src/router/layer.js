@@ -6,7 +6,7 @@ const debug = require('debug')('express:router:layer');
  * @private
  */
 
-var hasOwnProperty = Object.prototype.hasOwnProperty;
+const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 /**
  * Module exports.
