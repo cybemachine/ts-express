@@ -21,7 +21,7 @@ function Layer(path, options, fn) {
     }
 
     debug('new %o', path)
-    var opts = options || {};
+    const opts = options || {};
 
     this.handle = fn;
     this.name = fn.name || '<anonymous>';
