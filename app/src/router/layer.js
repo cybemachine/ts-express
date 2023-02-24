@@ -45,7 +45,7 @@ function Layer(path, options, fn) {
  */
 
 Layer.prototype.handle_error = function handle_error(error, req, res, next) {
-    var fn = this.handle;
+    const fn = this.handle;
 
     if (fn.length !== 4) {
         // not a standard error handler
