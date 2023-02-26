@@ -129,11 +129,11 @@ View.prototype.render = function render(options, callback) {
  */
 
 View.prototype.resolve = function resolve(dir, file) {
-    var ext = this.ext;
+    const ext = this.ext;
 
     // <path>.<ext>
-    var path = join(dir, file);
-    var stat = tryStat(path);
+    let path = join(dir, file);
+    let stat = tryStat(path);
 
     if (stat && stat.isFile()) {
         return path;
