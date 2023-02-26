@@ -7,11 +7,11 @@ const debug = require('debug')('express:view');
  * @private
  */
 
-var dirname = path.dirname;
-var basename = path.basename;
-var extname = path.extname;
-var join = path.join;
-var resolve = path.resolve;
+const dirname = path.dirname;
+const basename = path.basename;
+const extname = path.extname;
+const join = path.join;
+const resolve = path.resolve;
 
 /**
  * Module exports.
@@ -35,7 +35,7 @@ module.exports = View;
  */
 
 function View(name, options) {
-    var opts = options || {};
+    const opts = options || {};
 
     this.defaultEngine = opts.defaultEngine;
     this.ext = extname(name);
@@ -59,11 +59,11 @@ function View(name, options) {
 
     if (!opts.engines[this.ext]) {
         // load engine
-        var mod = this.ext.slice(1)
+        const mod = this.ext.slice(1)
         debug('require "%s"', mod)
 
         // default engine export
-        var fn = require(mod).__express
+        const fn = require(mod).__express
 
         if (typeof fn !== 'function') {
             throw new Error('Module "' + mod + '" does not provide a view engine.')
@@ -87,18 +87,18 @@ function View(name, options) {
  */
 
 View.prototype.lookup = function lookup(name) {
-    var path;
-    var roots = [].concat(this.root);
+    let path;
+    const roots = [].concat(this.root);
 
     debug('lookup "%s"', name);
 
     for (var i = 0; i < roots.length && !path; i++) {
-        var root = roots[i];
+        const root = roots[i];
 
         // resolve the path
-        var loc = resolve(root, name);
-        var dir = dirname(loc);
-        var file = basename(loc);
+        const loc = resolve(root, name);
+        const dir = dirname(loc);
+        const file = basename(loc);
 
         // resolve the file
         path = this.resolve(dir, file);
