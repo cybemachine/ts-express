@@ -1,4 +1,4 @@
-var setPrototypeOf = require('setprototypeof')
+const setPrototypeOf = require('setprototypeof')
 
 /**
  * Initialization middleware, exposing the
