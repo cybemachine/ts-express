@@ -99,9 +99,7 @@ app.defaultConfiguration = function defaultConfiguration() {
     this.set('views', resolve('views'));
     this.set('jsonp callback name', 'callback');
 
-    if (env === 'production') {
-        this.enable('view cache');
-    }
+    if (env === 'production') this.enable('view cache');
 
     Object.defineProperty(this, 'router', {
         get: function () {
