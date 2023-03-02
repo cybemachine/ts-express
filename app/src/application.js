@@ -175,9 +175,7 @@ app.use = function use(fn) {
     if (typeof fn !== 'function') {
         let arg = fn;
 
-        while (Array.isArray(arg) && arg.length !== 0) {
-            arg = arg[0];
-        }
+        while (Array.isArray(arg) && arg.length !== 0) arg = arg[0];
 
         // first arg is the path
         if (typeof arg !== 'function') {
