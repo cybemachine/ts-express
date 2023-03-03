@@ -186,9 +186,7 @@ app.use = function use(fn) {
 
     const fns = flatten(slice.call(arguments, offset));
 
-    if (fns.length === 0) {
-        throw new TypeError('app.use() requires a middleware function')
-    }
+    if (fns.length === 0) throw new TypeError('app.use() requires a middleware function')
 
     // setup router
     this.lazyrouter();
