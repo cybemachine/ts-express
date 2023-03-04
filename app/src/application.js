@@ -194,9 +194,7 @@ app.use = function use(fn) {
 
     fns.forEach(function (fn) {
         // non-express app
-        if (!fn || !fn.handle || !fn.set) {
-            return router.use(path, fn);
-        }
+        if (!fn || !fn.handle || !fn.set) return router.use(path, fn);
 
         debug('.use app under %s', path);
         fn.mountpath = path;
