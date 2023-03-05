@@ -267,9 +267,7 @@ app.route = function route(path) {
  */
 
 app.engine = function engine(ext, fn) {
-    if (typeof fn !== 'function') {
-        throw new Error('callback function required');
-    }
+    if (typeof fn !== 'function') throw new Error('callback function required');
 
     // get file extension
     var extension = ext[0] !== '.'
