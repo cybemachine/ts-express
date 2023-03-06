@@ -117,15 +117,14 @@ app.defaultConfiguration = function defaultConfiguration() {
  * @private
  */
 app.lazyrouter = function lazyrouter() {
-    if (!this._router) {
-        this._router = new Router({
-            caseSensitive: this.enabled('case sensitive routing'),
-            strict: this.enabled('strict routing')
-        });
+    if (this._router) return;
+    this._router = new Router({
+        caseSensitive: this.enabled('case sensitive routing'),
+        strict: this.enabled('strict routing')
+    });
 
-        this._router.use(query(this.get('query parser fn')));
-        this._router.use(middleware.init(this));
-    }
+    this._router.use(query(this.get('query parser fn')));
+    this._router.use(middleware.init(this));
 };
 
 /**
@@ -202,7 +201,7 @@ app.use = function use(fn) {
 
         // restore .app property on req and res
         router.use(path, function mounted_app(req, res, next) {
-            var orig = req.app;
+            const orig = req.app;
             fn.handle(req, res, function (err) {
                 setPrototypeOf(req, orig.request)
                 setPrototypeOf(res, orig.response)
@@ -294,10 +293,7 @@ app.param = function param(name, fn) {
     this.lazyrouter();
 
     if (Array.isArray(name)) {
-        for (let i = 0; i < name.length; i++) {
-            this.param(name[i], fn);
-        }
-
+        for (let i = 0; i < name.length; i++) this.param(name[i], fn);
         return this;
     }
 
@@ -322,10 +318,8 @@ app.param = function param(name, fn) {
  */
 
 app.set = function set(setting, val) {
-    if (arguments.length === 1) {
-        // app.get(setting)
-        return this.settings[setting];
-    }
+    // app.get(setting)
+    if (arguments.length === 1) return this.settings[setting];
 
     debug('set "%s" to %o', setting, val);
 
