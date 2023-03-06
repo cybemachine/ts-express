@@ -270,9 +270,7 @@ app.engine = function engine(ext, fn) {
     if (typeof fn !== 'function') throw new Error('callback function required');
 
     // get file extension
-    var extension = ext[0] !== '.'
-        ? '.' + ext
-        : ext;
+    const extension = ext[0] !== '.' ? '.' + ext : ext;
 
     // store engine
     this.engines[extension] = fn;
