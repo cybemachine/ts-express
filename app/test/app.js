@@ -1,6 +1,6 @@
-var assert = require('assert')
-var express = require('..')
-var request = require('supertest')
+const assert = require('assert')
+const request = require('supertest')
+const express = require('../src/express')
 
 describe('app', function () {
     it('should inherit from event emitter', function (done) {
