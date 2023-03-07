@@ -80,3 +80,17 @@ describe('Check types', () => {
     });
 });
 
+describe('Examples', () => {
+    it('basic test', () => {
+        const app = application();
+        app.get('/', (req, res) => { res.send('Hello World!') });
+        supertest(app).get('/')
+            .expect(200)
+            .expect('Content-Type', 'text/html; charset=utf-8')
+            .expect('Content-Length', '12')
+            .end((err, res) => {
+                if (err) throw err;
+            });
+        app = null;
+    });
+});
