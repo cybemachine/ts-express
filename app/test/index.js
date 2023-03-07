@@ -82,7 +82,7 @@ describe('Check types', () => {
 
 describe('Examples', () => {
     it('basic test', () => {
-        const app = application();
+        let app = application();
         app.get('/', (req, res) => { res.send('Hello World!') });
         supertest(app).get('/')
             .expect(200)
