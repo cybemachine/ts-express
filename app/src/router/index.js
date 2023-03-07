@@ -122,7 +122,7 @@ proto.handle = function handle(req, res, out) {
 
     debug('dispatching %s %s', req.method, req.url);
 
-    const idx = 0;
+    let idx = 0;
     const protohost = getProtohost(req.url) || ''
     let removed = '';
     let slashAdded = false;
