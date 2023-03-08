@@ -95,7 +95,8 @@ describe('Examples', () => {
     });
     it('404 test', () => {
         let app = application();
-        supertest(app).get('/')
+        supertest(app)
+            .get('/')
             .expect(404)
             .end((err, res) => {
                 if (err) throw err;
