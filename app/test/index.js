@@ -104,3 +104,12 @@ describe('Examples', () => {
         app = null;
     });
 });
+
+describe('Mixes', () => {
+    it('should work like event emmiter', (done) => {
+        let app = application();
+        app.on('foo', done);
+        app.emit('foo');
+        app = null;
+    });
+});
