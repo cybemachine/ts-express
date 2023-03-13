@@ -81,6 +81,10 @@ describe('Check types', () => {
 });
 
 describe('Examples', () => {
+    it('should be callable', () => {
+        const app = application();
+        assert.strictEqual(typeof app, 'function')
+    });
     it('basic test', () => {
         let app = application();
         app.get('/', (req, res) => { res.send('Hello World!') });
