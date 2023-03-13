@@ -3,6 +3,10 @@ const supertest = require("supertest");
 const application = require("../src/express")
 
 describe('Check exsistence', () => {
+    it('should be callable', () => {
+        const app = application();
+        assert.strictEqual(typeof app, 'function')
+    });
     it('should have a property in module.exports', () => {
         assert.strictEqual(!!application, true)
     });
@@ -81,10 +85,6 @@ describe('Check types', () => {
 });
 
 describe('Examples', () => {
-    it('should be callable', () => {
-        const app = application();
-        assert.strictEqual(typeof app, 'function')
-    });
     it('basic test', () => {
         let app = application();
         app.get('/', (req, res) => { res.send('Hello World!') });
