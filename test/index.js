@@ -7,6 +7,40 @@ describe('Check exsistence', () => {
         const app = application();
         assert.strictEqual(typeof app, 'function')
     });
+    it('should return the parent when mounted', function () {
+        let app = application()
+            , blog = application()
+            , blogAdmin = application();
+
+        app.use('/blog', blog);
+        blog.use('/admin', blogAdmin);
+
+        assert(!app.parent, 'app.parent');
+        assert.strictEqual(blog.parent, app)
+        assert.strictEqual(blogAdmin.parent, blog)
+        app = null;
+        blog = null;
+        blogAdmin = null;
+    })
+    it('should return the mounted path', function () {
+        let admin = application(),
+            app = application(),
+            blog = application(),
+            fallback = application();
+
+        app.use('/blog', blog);
+        app.use(fallback);
+        blog.use('/admin', admin);
+
+        assert.strictEqual(admin.mountpath, '/admin')
+        assert.strictEqual(app.mountpath, '/')
+        assert.strictEqual(blog.mountpath, '/blog')
+        assert.strictEqual(fallback.mountpath, '/')
+        admin = null;
+        app = null;
+        blog = null;
+        fallback = null;
+    })
     it('should have a property in module.exports', () => {
         assert.strictEqual(!!application, true)
     });
@@ -117,3 +151,17 @@ describe('Mixes', () => {
         app = null;
     });
 });
+
+describe('app.router', function () {
+    it('should throw with notice', function (done) {
+        let app = application()
+
+        try {
+            app.router;
+        } catch (err) {
+            done();
+        }
+
+        app = null;
+    })
+})
